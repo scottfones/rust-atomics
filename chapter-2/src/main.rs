@@ -2,10 +2,14 @@ use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering::Relaxed;
 use std::thread::{self, ThreadId};
 use std::time::Duration;
+
 // use std::io::{self, Write};
+use indicatif::ProgressBar;
 
 fn do_work(num: i32, tid: ThreadId) {
-    println!("Processing: {num}, Thread: {tid:?}");
+    if num < 0 {
+        println!("Processing: {num}, Thread: {tid:?}");
+    }
 }
 
 fn main() {
@@ -25,15 +29,17 @@ fn main() {
         }
 
         // main thread for status updates, updates every second
+        let bar = ProgressBar::new(100);
         loop {
             let n = num_done.load(Relaxed);
             if n == 100 {
                 break;
             }
 
-            println!("Working.. {n}/100 done");
+            bar.set_position(n as u64);
             thread::sleep(Duration::from_millis(100));
         }
+        bar.finish();
     });
     println!("Done!");
 }
