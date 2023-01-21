@@ -1,4 +1,4 @@
-use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::AtomicU64;
 use std::sync::atomic::Ordering::Relaxed;
 use std::thread::{self, ThreadId};
 use std::time::Duration;
@@ -13,7 +13,7 @@ fn do_work(num: i32, tid: ThreadId) {
 }
 
 fn main() {
-    let num_done = &AtomicUsize::new(0);
+    let num_done = &AtomicU64::new(0);
 
     thread::scope(|s| {
         // four bg threads to process 100 items, 25 each
@@ -36,7 +36,7 @@ fn main() {
                 break;
             }
 
-            bar.set_position(n as u64);
+            bar.set_position(n);
             thread::sleep(Duration::from_millis(100));
         }
         bar.finish();
