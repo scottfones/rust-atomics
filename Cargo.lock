@@ -14,6 +14,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "chapter-3"
+version = "0.1.0"
+dependencies = [
+ "indicatif",
+]
+
+[[package]]
 name = "console"
 version = "0.15.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
